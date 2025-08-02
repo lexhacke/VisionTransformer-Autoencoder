@@ -6,8 +6,8 @@
 - **Dataset**:
     Trained on the MSCOCO 2017 dataset  
 - **Architecture**:
-    Encoder, Decoder architecture featuring a Vision Transformer, patchifying the image into 16x16 patch tokens before passing the token sequence through spatially-aware transformer blocks, embedded via RoPE <br>
-    (Rotary Position Embeddings) as per Su et al. Finally, the sequence is compressed to a 16x16x16 latent. The decoder consists of mostly the same architecture, but backwards, decompressing the 16x16x16 <br>
+    Encoder, Decoder architecture featuring a Vision Transformer, patchifying the image into 16x16 patch tokens before passing the token sequence through spatially-aware transformer blocks, embedded via RoPE
+    (Rotary Position Embeddings) as per Su et al. Finally, the sequence is compressed to a 16x16x16 latent. The decoder consists of mostly the same architecture, but backwards, decompressing the 16x16x16
     latent into a sequence of tokens, passing it through spatially-aware transformer blocks, then linearly projecting the tokens back to image space.
 - **Training**:
     1) VGG Perceptual Loss as per Zhang et al., 2018 [[arXiv](https://arxiv.org/abs/1801.03924)] <br>
