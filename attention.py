@@ -24,16 +24,14 @@ class Attention(nn.Module):
         # to 2D
         q = rearrange(q, "B (H W) (h D) -> B h H W D", H=self.H, W=self.W, h=self.n_heads)
         k = rearrange(k, "B (H W) (h D) -> B h H W D", H=self.H, W=self.W, h=self.n_heads)
-        v = rearrange(v, "B (H W) (h D) -> B h H W D", H=self.H, W=self.W, h=self.n_heads)
 
         q = apply_angles_2d(q, self.freq)
         k = apply_angles_2d(k, self.freq)
-        v = apply_angles_2d(v, self.freq)
 
         # to 1D
         q = rearrange(q, "B h H W D -> B h (H W) D", H=self.H, W=self.W, h=self.n_heads)
         k = rearrange(k, "B h H W D -> B h (H W) D", H=self.H, W=self.W, h=self.n_heads)
-        v = rearrange(v, "B h H W D -> B h (H W) D", H=self.H, W=self.W, h=self.n_heads)
+        v = rearrange(v, "B N (h D) -> B h N D", N=self.H*self.W, h=self.n_heads)
 
         x = F.scaled_dot_product_attention(q, k, v)
         x = rearrange(x, "B h N D -> B N (h D)")
@@ -60,4 +58,5 @@ class ViTBlock(nn.Module):
     return x
   
 # Sanity Check :)
+
 print(ViTBlock(64,64,384)(torch.randn(1, 64**2, 384)).shape)
